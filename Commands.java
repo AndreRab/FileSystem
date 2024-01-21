@@ -17,20 +17,22 @@ public class Commands {
     public static final String FILE_EXISTS_ERROR = "File already exists";
     public static final String FOLDER_CYCLE_ERROR = "Move will provide folder cycle";
     public static void displayAllCommandsWithDescription(){
-        System.out.println("MFS (My File System) - Custom file system in a single directory");
-        System.out.println("Supported commands:");
-        System.out.println("ls [dir_name] - List the contents of a directory with the given name.");
-        System.out.println("mkdir [dir_name] - Create a directory with the given name.");
-        System.out.println("rmdir [dir_name] - Remove a directory with the given name and its contents.");
-        System.out.println("mvdir [src_dir] [target_dir] - Move the directory src_dir to target_dir.");
-        System.out.println("touch [file_name] - Create an empty file with the given name.");
-        System.out.println("echo [file_name] [content] - Append the content parameter to a file.");
-        System.out.println("cat [file_name] - Display the contents of a file.");
-        System.out.println("delete [file_name] - Delete a file with the given name.");
-        System.out.println("copy [src_file] [target_dir] - Copy the file src_file to the target directory.");
-        System.out.println("mv [src_file] [target_dir] - Move the file src_file to the target directory.");
-        System.out.println("help - Display this help.");
-        System.out.println("\nNote: Directory and file names should be fully qualified, e.g., root-123.txt.");
-
+        String message = """
+        MFS (My File System) - Custom file system in a single directory
+        "Supported commands:
+        "ls [dir_name] - List the contents of a directory with the given name.
+        mkdir [dir_name] - Create a directory with the given name.
+        rmdir [dir_name] - Remove a directory with the given name and its contents.
+        mvdir [src_dir] [target_dir] - Move the directory src_dir to target_dir.
+        touch [file_name] - Create an empty file with the given name.
+        echo [file_name] [content] - Append the content parameter to a file.
+        cat [file_name] - Display the contents of a file.
+        delete [file_name] - Delete a file with the given name.
+        copy [src_file] [target_dir] - Copy the file src_file to the target directory.
+        mv [src_file] [target_dir] - Move the file src_file to the target directory.
+        help - Display this help.
+        
+        Note: Directory and file names should be fully qualified, e.g., root-123.txt.""";
+        System.out.println(message);
     }
 }
