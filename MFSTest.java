@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class MFSTest {
-    private static final MFS mfs = new MFS();
+    private final MFS mfs = new MFS();
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     @BeforeEach
@@ -18,8 +18,8 @@ public class MFSTest {
         System.setOut(originalOut);
     }
     @AfterAll
-    public static void deleteRoot(){
-        mfs.deleteRoot();
+    static void cleanUp() {
+        MFS.deleteInitFolder();
     }
 
     @Test
@@ -41,8 +41,8 @@ public class MFSTest {
         mfs.mainInternal(command.split(" "));
         String consoleOutput = outputStream.toString().trim();
         System.out.println(consoleOutput);
-        String expectedOutput = "File: firstFile!\r\n" +
-                "Directory: firstDirectory!";
+        String expectedOutput = "Directory: firstDirectory!\r\n" +
+                "File: firstFile!";
         assertEquals(expectedOutput, consoleOutput);
     }
     @Test
@@ -89,8 +89,8 @@ public class MFSTest {
         mfs.mainInternal(command.split(" "));
         String consoleOutput = outputStream.toString().trim();
         System.out.println(consoleOutput);
-        String expectedOutput = "File: firstFile!\r\n" +
-                "Directory: firstDirectory";
+        String expectedOutput = "Directory: firstDirectory\r\n" +
+                "File: firstFile!";
         assertEquals(expectedOutput, consoleOutput);
     }
     @Test
@@ -112,8 +112,8 @@ public class MFSTest {
         mfs.mainInternal(command.split(" "));
         String consoleOutput = outputStream.toString().trim();
         System.out.println(consoleOutput);
-        String expectedOutput = "File: firstFile!\r\n" +
-                "Directory: secondDirectory";
+        String expectedOutput = "Directory: secondDirectory\r\n" +
+                "File: firstFile!";
         assertEquals(expectedOutput, consoleOutput);
     }
     @Test
