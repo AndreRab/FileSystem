@@ -1,52 +1,33 @@
-# zad-11-filesystem
+# MFS - My File System
 
-## Definicja
-Należy stworzyć własny system plików (MFS, My File System), który będzie działał w jednym katalogu. To oznacza, że ignoruje standardowe podkatalogi systemu operacyjnego.
+## Introduction
 
-System rozróżnia wielkośc liter. Dopuszcza nazwy plików i katalogów z zakresu ASCII:
-* 0x30 - 0x39 (liczby)
-* 0x46 (kropka: `.`)
-* 0x5F (podkreślnik: `_`)
-* 0x65 - 0x90 (wielkie litery)
-* 0x97 - 0x7A (małe litery)
+MFS is a custom file system designed to operate within a single directory, providing a unique approach to managing files and directories. This project aims to create a versatile and user-friendly file system that ignores standard operating system subdirectories, allowing for more flexible file organization and management.
 
-Punktem wejścia do systemu plików ma być plik `root.mfs` (`mfs` - my file system). Plik ten zawiera nawy katalogów oraz plików. Nazwy katalogów są poprzedzone literą `D`, natomiast nazwy plików - literą `F`.
+## Features
 
-Przykładowa zawartość pliku `root.mfs`:
-```
-Dusr
-Dbin
-DDIRECTORY
-F123.txt
-Ddir110
-Fala_ma_kota_kot_ma_ale
-```
-Znajdują się tu 4 katalogi (usr, bin, DIRECTORY oraz dir110) oraz 2 pliki (123.txt oraz ala_ma_kota_kot_ma_ale).
+- **Custom File System Structure:** MFS distinguishes between uppercase and lowercase letters, allowing filenames and directory names within the ASCII range. It supports numbers, dot, underscore, and letters (both uppercase and lowercase), enabling users to create meaningful and diverse file and directory names.
 
-Każdy podkatalog powinien zawierać spis swojej zawartości, w pliku nazwanym zgodnie z konwencją `rodzice-nazwa_katalogu.mfs`. Część nazwy "rodzice" to lista wszystkich katalogów zawierających ten katalog oddzielonych znakiem `-`. Na przykład: `root-usr-bin-java.mfs` to katalog o nazwie `java` w katalogu `bin`, który jest w katalogu `usr`. Katalog `usr` znajduje się już w głównym katalogu systemu plików (czyli `root.mfs`).
+- **Entry Point:** The entry point to the file system is a file named `root.mfs`, which contains the names of directories and files. Directories are prefixed with the letter `D`, while files are prefixed with the letter `F`, ensuring clear identification and organization.
 
-Możliwe jest zagnieżdżanie katalogów o takiej samej nazwie, np. `root-root-root.mfs` to dopuszczalny katalog `root` w katalogu `root` w głównym katalogu.
+- **Nested Directory Support:** MFS supports nested directories, allowing for complex directory structures. Each subdirectory contains a list of its contents in a file named according to the convention `parent-directory-name.mfs`, facilitating easy navigation and management of files and directories.
 
-Pliki powinny w swojej nazwie również zawierać ścieżkę aż do root-a. Aby odzwierciedlić plik z przykładu powyżej `123.txt` powinien on się nazywać `root-123.txt`.
+- **File Operations:** MFS supports various file operations, including creating, moving, copying, and deleting files. Users can also append content to existing files and view the contents of files, providing comprehensive file management capabilities.
 
-MFS nie obsługuje uprawnień ani dat - można zignorować.
+- **Directory Operations:** Users can create, remove, and move directories within the file system. MFS ensures error handling for invalid operations, such as attempting to create duplicate directories or move directories in a way that would create cycles in the directory tree.
 
-## Program
-Sam program powinien obsługiwać ten system plików przez parametry programu. Kolejne operacje poniżej są jednocześnie nazwą parametru. Część komend przyjmuje dodatkowe arguemnty - są one opisane przy tych komendach.
+## Usage
 
-Ponieważ MFS nie posiada pojęcia katalogu bieżącego, nazwy katalogów oraz plików powinny zawsze być w pełni kwalifikowane - czyli np `root-123.txt`, a nie `123.txt`.
+The MFS project provides a command-line interface for interacting with the file system. Users can perform various operations by specifying command names and parameters. Below are some of the supported commands:
 
-* `ls [dir_name]` - wyświetla zawartość katalogu o podanej nazwie. Wyświetlanie musi jasno rozróżniać pliki od katalogów. Sortowanie po nazwach malejąco, w kolejności kodów ASCII. Jeśli taki katalog nie istnieje, wyświetla błąd.
-* `mkdir [dir_name]` - tworzy katalog o podanej nazwie. Jeśli taki katalog już istnieje, wyświetla błąd.
-* `rmdir [dir_name]` - usuwa katalog o podanej nazwie z całą zawartością. Jeśli taki katalog nie istnieje, wyświetla błąd.
-* `mvdir [src_dir] [target_dir]` - przesuwa katalog `src_dir` do katalogu `target_dir`. Jeśli któryś z katalogów nie istnieje, wyświetla błąd. Jeśli wprowadziłoby to cykl w drzewie katalogów, wyświetla błąd.
-* `touch [file_name]` - tworzy pusty plik o podanej nazwie. Jeśli taki plik już istnieje, nie dzieje się nic.
-* `echo [file_name] [content]` - dopisuje do pliku zawartość parametru `content`.
-* `cat [file_name]` - wyświetla zawartość pliku. Jeśli taki plik nie istnieje, wyświetla błąd.
-* `delete [file_name]` - usuwa plik o podanej nazwie. Jeśli taki plik nie istnieje, nic się nie dzieje.
-* `copy [src_file] [target_dir]` - kopiuje plik `src_file` do katalogu `target_dir`. Jeśli któreś z nich nie istnieje, wyświetla błąd. Jeśli w katalogu docelowym plik o takiej nazwie już istnieje, wyświetla błąd.
-* `mv [src_file] [target_dir]` - przesuwa plik `src_file` do katalogu `target_dir`. Jeśli któreś z nich nie istnieje, wyświetla błąd. Jeśli w katalogu docelowym plik o takiej nazwie już istnieje, wyświetla błąd.
-* `help` - wyświetla możliwe komendy z krótkim opisem sposobu ich użycia.
-
-## Przykład
-Należy zaimplementować również przykład pokazujący działanie wszytkich opcji, łącznie z obsługą sytuacji błędnych. Przykład może być w formie testów JUnit albo skryptu sh. Dla uproszczenia, wszystkie pliki mogą być tekstowe.
+- `ls [dir_name]`: Displays the contents of the specified directory.
+- `mkdir [dir_name]`: Creates a new directory with the specified name.
+- `rmdir [dir_name]`: Removes the specified directory and its contents.
+- `mvdir [src_dir] [target_dir]`: Moves a directory to another location within the file system.
+- `touch [file_name]`: Creates a new empty file with the specified name.
+- `echo [file_name] [content]`: Appends content to an existing file.
+- `cat [file_name]`: Displays the contents of a file.
+- `delete [file_name]`: Deletes the specified file.
+- `copy [src_file] [target_dir]`: Copies a file to a specified directory.
+- `mv [src_file] [target_dir]`: Moves a file to a specified directory.
+- `help`: Displays a list of available commands and their usage instructions.
